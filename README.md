@@ -1,6 +1,9 @@
 # Objext
 
-**TODO: Add description**
+Objext helps you define **fully-encapsulated** data structures (so called "objexts").
+Then Objext allows you to define a common interfaces for these "objexts".
+Objext will **dynamically dispatch** the interfaces function calls to implementation functions (just like Protocol does).
+Finally, these data structures and interfaces defined by Objext are fully **compatible** with existing Protocols and Behaviours.
 
 ## Installation
 
