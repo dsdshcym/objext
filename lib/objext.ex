@@ -9,7 +9,11 @@ defmodule Objext do
     quote bind_quoted: [implements: implements] do
       implementation_module = __MODULE__
 
-      interfaces = implements
+      interfaces =
+        Enum.filter(implements, fn module ->
+          Code.ensure_loaded?(module) and function_exported?(module, :__interface__, 1) and
+            module.__interface__(:module) == module
+        end)
 
       for interface <- interfaces do
         @behaviour interface.__interface__(:behaviour_module)
