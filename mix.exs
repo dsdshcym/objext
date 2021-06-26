@@ -19,7 +19,7 @@ defmodule Objext.MixProject do
     ]
   end
 
-  defp elixirc_paths(:test), do: ["example", "lib"]
+  defp elixirc_paths(:test), do: ["test/example", "lib"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Run "mix help deps" to learn about dependencies.
