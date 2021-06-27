@@ -1,6 +1,7 @@
 defmodule Objext.Mock do
   defmacro defmock(for: interface) do
     quote do
+      require unquote(interface)
       require Promox
 
       cond do
