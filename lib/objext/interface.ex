@@ -2,6 +2,7 @@ defmodule Objext.Interface do
   defmacro __using__(_opts) do
     quote do
       import Objext.Interface, only: [definterfaces: 1]
+      import Objext.Case, only: [defterms: 2]
 
       def __interface__(:module), do: __MODULE__
     end

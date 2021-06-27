@@ -22,4 +22,8 @@ defmodule ObjextTest do
       assert Plain.new() |> Plain.value() == :plain_value
     end
   end
+
+  describe "cases defined in interface module can be reused" do
+    use Objext.Case, for: Queue, subjects: [queue: ListQueue.new()]
+  end
 end
