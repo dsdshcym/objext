@@ -148,17 +148,6 @@ To achieve this objective, Objext keeps the following goals in mind:
            assert {:empty, ^q3} = Queue.dequeue(q3)
          end
        end
-
-       describe "enqueue |> to_list" do
-         test "first in first out" do
-           assert queue()
-           |> Queue.enqueue(1)
-           |> Queue.enqueue(2)
-           |> Queue.enqueue(3)
-           |> Queue.enqueue(4)
-           |> Queue.to_list() == [1, 2, 3, 4]
-         end
-       end
      end
    end
 
