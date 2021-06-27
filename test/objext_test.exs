@@ -11,6 +11,10 @@ defmodule ObjextTest do
     test "allows implementation module to implement other protocols" do
       assert inspect(StringValue.new()) == "a"
     end
+
+    test "allows implementation module to implement other behaviours" do
+      assert get_in(AtomValue.new(), [:a]) == true
+    end
   end
 
   describe "implementation module only (as an opaque Struct)" do

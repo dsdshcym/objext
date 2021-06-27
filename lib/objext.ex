@@ -21,12 +21,23 @@ defmodule Objext do
             module.__protocol__(:module) == module
         end)
 
+      behaviours =
+        Enum.filter(implements, fn module ->
+          Code.ensure_loaded?(module) and function_exported?(module, :behaviour_info, 1) and
+            !(Code.ensure_loaded?(module) and function_exported?(module, :__protocol__, 1) and
+                module.__protocol__(:module) == module)
+        end)
+
       for interface <- interfaces do
         @behaviour interface.__interface__(:behaviour_module)
       end
 
       for protocol <- protocols do
         @behaviour protocol
+      end
+
+      for behaviour <- behaviours do
+        @behaviour behaviour
       end
 
       defp buildo(state \\ __MODULE__) do
@@ -63,6 +74,17 @@ defmodule Objext do
 
               defdelegate unquote(function)(unquote_splicing(args)), to: implementation_module
             end
+          end
+        end
+
+        for behaviour <- behaviours do
+          @behaviour behaviour
+
+          for {function, arity} <- behaviour.behaviour_info(:callbacks) do
+            args = Macro.generate_unique_arguments(arity, __MODULE__)
+
+            @impl behaviour
+            defdelegate unquote(function)(unquote_splicing(args)), to: implementation_module
           end
         end
 

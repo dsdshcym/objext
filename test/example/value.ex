@@ -19,11 +19,17 @@ defmodule StringValue do
 end
 
 defmodule AtomValue do
-  use Objext, implements: [Value]
+  use Objext, implements: [Value, Access]
 
   def new() do
     buildo()
   end
 
   def a(_), do: :a
+
+  def fetch(_, :a), do: {:ok, true}
+
+  def get_and_update(this, :a, _), do: {true, this}
+
+  def pop(this, :a), do: {true, this}
 end
