@@ -40,4 +40,15 @@ defmodule Objext.MockTest do
       assert Enumerable.count(mock) == :called
     end
   end
+
+  describe "mock other modules" do
+    test "raises an error" do
+      assert_raise ArgumentError,
+                   "defmock failed: Integer is not an Objext interface nor a Protocol module",
+                   fn ->
+                     require Objext.Mock
+                     Objext.Mock.defmock(for: Integer)
+                   end
+    end
+  end
 end

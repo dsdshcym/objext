@@ -11,6 +11,10 @@ defmodule Objext.Mock do
 
         Objext.Interface.is_protocol(unquote(interface)) ->
           Promox.defmock(for: unquote(interface))
+
+        true ->
+          raise ArgumentError,
+                "defmock failed: #{inspect(unquote(interface))} is not an Objext interface nor a Protocol module"
       end
     end
   end
