@@ -9,24 +9,11 @@ defmodule Objext do
     quote bind_quoted: [implements: implements] do
       implementation_module = __MODULE__
 
-      interfaces =
-        Enum.filter(implements, fn module ->
-          Code.ensure_loaded?(module) and function_exported?(module, :__interface__, 1) and
-            module.__interface__(:module) == module
-        end)
+      interfaces = Enum.filter(implements, &Objext.Interface.is_interface/1)
 
-      protocols =
-        Enum.filter(implements, fn module ->
-          Code.ensure_loaded?(module) and function_exported?(module, :__protocol__, 1) and
-            module.__protocol__(:module) == module
-        end)
+      protocols = Enum.filter(implements, &Objext.Interface.is_protocol/1)
 
-      behaviours =
-        Enum.filter(implements, fn module ->
-          Code.ensure_loaded?(module) and function_exported?(module, :behaviour_info, 1) and
-            !(Code.ensure_loaded?(module) and function_exported?(module, :__protocol__, 1) and
-                module.__protocol__(:module) == module)
-        end)
+      behaviours = Enum.filter(implements, &Objext.Interface.is_behaviour/1)
 
       for interface <- interfaces do
         @behaviour interface.__interface__(:behaviour_module)

@@ -31,4 +31,23 @@ defmodule Objext.Interface do
       defdelegate unquote(function)(unquote_splicing(args)), to: to_mod
     end
   end
+
+  def is_interface(module) do
+    Code.ensure_loaded?(module) and
+      function_exported?(module, :__interface__, 1) and
+      module.__interface__(:module) == module
+  end
+
+  def is_protocol(module) do
+    Code.ensure_loaded?(module) and
+      function_exported?(module, :__protocol__, 1) and
+      module.__protocol__(:module) == module
+  end
+
+  def is_behaviour(module) do
+    Code.ensure_loaded?(module) and
+      function_exported?(module, :behaviour_info, 1) and
+      !(Code.ensure_loaded?(module) and function_exported?(module, :__protocol__, 1) and
+          module.__protocol__(:module) == module)
+  end
 end
