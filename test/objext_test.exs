@@ -23,6 +23,12 @@ defmodule ObjextTest do
     end
   end
 
+  describe "interface module only" do
+    test "all the public functions are still callable" do
+      assert PureInterface.fun() == "works without definterfaces"
+    end
+  end
+
   describe "cases defined in interface module can be reused" do
     use Objext.Case, for: Queue, subjects: [queue: ListQueue.new()]
   end
