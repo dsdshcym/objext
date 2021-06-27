@@ -12,7 +12,7 @@ defmodule Objext.Interface do
   Example:
   ```
   defmodule Queue do
-    use GenObject.Interface
+    use Objext.Interface
 
     definterfaces do
       def enqueue(queue, item)
@@ -54,7 +54,7 @@ defmodule Objext.Interface do
 
   defmodule ListQueueTest do
     use ExUnit.Case, async: true
-    use GenObject.Case, for: Queue, subjects: [queue: ListQueue.new()]
+    use Objext.Case, for: Queue, subjects: [queue: ListQueue.new()]
   end
   ```
   """

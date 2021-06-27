@@ -159,7 +159,7 @@ To achieve this objective, Objext keeps the following goals in mind:
 6. Finally, you can introduce a new module that implements the `Queue` interface:
    ``` elixir
    defmodule ErlQueue do
-     use GenObject, implements: [Queue]
+     use Objext, implements: [Queue]
 
      def new() do
        buildo(:queue.new())
