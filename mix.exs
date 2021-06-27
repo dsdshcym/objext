@@ -8,6 +8,10 @@ defmodule Objext.MixProject do
       elixir: "~> 1.12",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
+      name: "Objext",
+      description: "Build encapsulated data structures and shared interfaces in Elixir",
+      package: package(),
+      docs: docs(),
       deps: deps()
     ]
   end
@@ -21,6 +25,21 @@ defmodule Objext.MixProject do
 
   defp elixirc_paths(:test), do: ["test/example", "lib"]
   defp elixirc_paths(_), do: ["lib"]
+
+  defp package do
+    %{
+      licenses: ["Apache-2.0"],
+      maintainers: ["Yiming Chen"],
+      links: %{"GitHub" => "https://github.com/dsdshcym/objext"}
+    }
+  end
+
+  defp docs do
+    [
+      main: "readme",
+      extras: ["README.md"]
+    ]
+  end
 
   # Run "mix help deps" to learn about dependencies.
   defp deps do
