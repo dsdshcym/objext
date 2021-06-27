@@ -216,3 +216,8 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at [https://hexdocs.pm/objext](https://hexdocs.pm/objext).
 
+
+## Road-map
+1. [ ] Put Internal modules like `*.Protocol` and `*.Object` under Objext namespace (avoid polluting user namespaces)
+2. [ ] Boundary-like compile time check for encapsulation violations
+3. [ ] Eliminate the needs of delegating to protocols (simpler internal structure, better performance)
