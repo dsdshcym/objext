@@ -1,21 +1,16 @@
 defmodule Objext.Mock do
   defmacro defmock(for: interface) do
-    interface = Macro.expand(interface, __CALLER__)
+    quote do
+      require Promox
 
-    cond do
-      Objext.Interface.is_interface(interface) ->
-        protocol = Module.concat(interface, Protocol)
+      cond do
+        Objext.Interface.is_interface(unquote(interface)) ->
+          protocol = Module.concat(unquote(interface), Protocol)
+          Promox.defmock(for: protocol)
 
-        quote do
-          require Promox
-          Promox.defmock(for: unquote(protocol))
-        end
-
-      Objext.Interface.is_protocol(interface) ->
-        quote do
-          require Promox
+        Objext.Interface.is_protocol(unquote(interface)) ->
           Promox.defmock(for: unquote(interface))
-        end
+      end
     end
   end
 
