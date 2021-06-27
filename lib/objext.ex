@@ -1,6 +1,82 @@
 defmodule Objext do
   @moduledoc """
-  Documentation for `Objext`.
+  Define a **fully-encapsulated** data structure (objext) module.
+  "Fully-encapsulated" means that only the module that defines this objext can access its internal state.
+
+  It's recommended to define a `new` function to return a new objext.
+  You can pass any data to `buildo/1` function to build this new objext.
+
+  ```
+  defmodule ListQueue do
+    use Objext
+
+    def new(), do: buildo([])
+  end
+  ```
+
+  Note that you should not depend on the internal structure of the data returned from `buildo/1`.
+  It may be a tuple, a struct, a map, or a record.
+  How it's implemented doesn't and shouldn't matter to you.
+  You can use `matcho/1` macro to match the state in an objext:
+
+  ```
+  defmodule ListQueue do
+    use Objext
+
+    def new(), do: buildo([])
+
+    def enqueue(matcho(state), item) do
+      buildo(state ++ [item])
+    end
+
+    def dequeue(matcho([]) = this) do
+      {:empty, this}
+    end
+
+    def dequeue(matcho([item | rest])) do
+      {item, buildo(rest)}
+    end
+  end
+  ```
+
+  Finally, you can pass an `:implements` option to `use Objext`, specifying the interfaces/behaviours/protocols this module should implement.
+  ```
+  defmodule Queue do
+    use Objext.Interface
+
+    definterfaces do
+      def enqueue(queue, item)
+      def dequeue(queue)
+    end
+  end
+
+  defmodule ListQueue do
+    use Objext, implements: [Queue, Access, Enumerable]
+
+    def new(), do: buildo([])
+
+    @impl Queue
+    def enqueue(matcho(state), item) do
+      buildo(state ++ [item])
+    end
+
+    @impl Queue
+    def dequeue(matcho([]) = this) do
+      {:empty, this}
+    end
+
+    @impl Queue
+    def dequeue(matcho([item | rest])) do
+      {item, buildo(rest)}
+    end
+
+    @impl Access
+    def fetch(matcho(list), index), do: Enum.at(list, index)
+
+    @impl Enumerable
+    def count(matcho(list)), do: length(list)
+  end
+  ```
   """
 
   defmacro __using__(opts) do
