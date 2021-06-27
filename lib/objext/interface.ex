@@ -47,7 +47,6 @@ defmodule Objext.Interface do
   def is_behaviour(module) do
     Code.ensure_loaded?(module) and
       function_exported?(module, :behaviour_info, 1) and
-      !(Code.ensure_loaded?(module) and function_exported?(module, :__protocol__, 1) and
-          module.__protocol__(:module) == module)
+      !is_protocol(module)
   end
 end
