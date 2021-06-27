@@ -7,13 +7,15 @@ defmodule Value do
 end
 
 defmodule StringValue do
-  use Objext, implements: [Value]
+  use Objext, implements: [Value, Inspect]
 
   def new() do
     buildo()
   end
 
   def a(_), do: "a"
+
+  def inspect(_, _opts), do: "a"
 end
 
 defmodule AtomValue do

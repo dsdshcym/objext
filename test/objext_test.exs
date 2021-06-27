@@ -7,6 +7,10 @@ defmodule ObjextTest do
       assert StringValue.new() |> Value.a() == "a"
       assert AtomValue.new() |> Value.a() == :a
     end
+
+    test "allows implementation module to implement other protocols" do
+      assert inspect(StringValue.new()) == "a"
+    end
   end
 
   describe "implementation module only (as an opaque Struct)" do

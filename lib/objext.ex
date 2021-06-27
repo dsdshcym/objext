@@ -15,8 +15,18 @@ defmodule Objext do
             module.__interface__(:module) == module
         end)
 
+      protocols =
+        Enum.filter(implements, fn module ->
+          Code.ensure_loaded?(module) and function_exported?(module, :__protocol__, 1) and
+            module.__protocol__(:module) == module
+        end)
+
       for interface <- interfaces do
         @behaviour interface.__interface__(:behaviour_module)
+      end
+
+      for protocol <- protocols do
+        @behaviour protocol
       end
 
       defp buildo(state \\ __MODULE__) do
@@ -37,6 +47,16 @@ defmodule Objext do
         for interface <- interfaces do
           protocol = interface.__interface__(:protocol_module)
 
+          defimpl protocol do
+            for {function, arity} <- protocol.__protocol__(:functions) do
+              args = Macro.generate_unique_arguments(arity, __MODULE__)
+
+              defdelegate unquote(function)(unquote_splicing(args)), to: implementation_module
+            end
+          end
+        end
+
+        for protocol <- protocols do
           defimpl protocol do
             for {function, arity} <- protocol.__protocol__(:functions) do
               args = Macro.generate_unique_arguments(arity, __MODULE__)
