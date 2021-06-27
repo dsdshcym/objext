@@ -1,3 +1,3 @@
 %{
-  "promox": {:hex, :promox, "0.1.0", "2d2c4a3af99a5ec3726cdd40b0e29178008fc7ef74dc8eaff2962f1f17de5bfb", [:mix], [], "hexpm", "bea84a80ef5ebf46d3313167826bec2aacff28144a655d170cc58416b848f3ea"},
+  "promox": {:hex, :promox, "0.1.1", "aeca5618d0a186c91d121a3098c56660b58fcdf415a2209951f99faf30f50333", [:mix], [], "hexpm", "4a645523579282433914f47e4d8536dfbd47e349c50b7234052bb4673b83b570"},
 }
