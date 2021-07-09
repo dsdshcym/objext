@@ -5,6 +5,20 @@ Then Objext allows you to define a common interfaces for these "objexts".
 Objext will **dynamically dispatch** the interfaces function calls to implementation functions (just like Protocol does).
 Finally, these data structures and interfaces defined by Objext are fully **compatible** with existing Protocols and Behaviours.
 
+## Installation
+
+The package can be installed by adding `objext` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:objext, "~> 0.1"}
+  ]
+end
+```
+
+The docs can be found at [https://hexdocs.pm/objext](https://hexdocs.pm/objext).
+
 ## Goals
 
 Objext is designed to help you define your Abstract Data Types, with an easy to use API.
@@ -187,21 +201,6 @@ To achieve this objective, Objext keeps the following goals in mind:
    ```
 
 ### TODO Outside-In Approach
-
-## Installation
-
-The package can be installed by adding `objext` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:objext, "~> 0.1"}
-  ]
-end
-```
-
-The docs can be found at [https://hexdocs.pm/objext](https://hexdocs.pm/objext).
-
 
 ## Road-map
 1. [ ] Put Internal modules like `*.Protocol` and `*.Object` under Objext namespace (avoid polluting user namespaces)
