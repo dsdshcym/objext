@@ -29,18 +29,31 @@ defmodule ObjServer do
     end
   end
 
-  defp loop(matcho(%{mod: mod, state: state})) do
+  defp loop(server) do
     receive do
       {:cast, message} ->
-        {:noreply, new_state} = mod.handle_cast(message, state)
-        loop(buildo(%{mod: mod, state: new_state}))
+        {:noreply, new_state} =
+          server |> get_module() |> apply(:handle_cast, [message, get_state(server)])
+
+        server |> put_state(new_state) |> loop()
 
       {:call, from, message} ->
-        {:reply, value, new_state} = mod.handle_call(message, from, state)
+        {:reply, value, new_state} =
+          server
+          |> get_module()
+          |> apply(:handle_call, [message, from, get_state(server)])
+
         send(from, {:call_reply, value})
-        loop(buildo(%{mod: mod, state: new_state}))
+
+        server |> put_state(new_state) |> loop()
     end
   end
+
+  defp get_module(matcho(%{mod: mod})), do: mod
+  defp get_state(matcho(%{state: state})), do: state
+
+  defp put_state(matcho(server_internal), new_state),
+    do: buildo(%{server_internal | state: new_state})
 end
 
 defmodule ObjServerTest do
