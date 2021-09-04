@@ -12,7 +12,7 @@ defmodule ObjServer do
   def start_link(mod, init_args) do
     server = buildo(%{mod: mod, state: mod.init(init_args)})
 
-    spawn_link(__MODULE__, :loop, [server])
+    spawn_link(fn -> loop(server) end)
   end
 
   def cast(server, message) do
@@ -29,7 +29,7 @@ defmodule ObjServer do
     end
   end
 
-  def loop(matcho(%{mod: mod, state: state})) do
+  defp loop(matcho(%{mod: mod, state: state})) do
     receive do
       {:cast, message} ->
         {:noreply, new_state} = mod.handle_cast(message, state)
