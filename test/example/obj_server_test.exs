@@ -15,13 +15,13 @@ defmodule ObjServer do
     spawn_link(fn -> loop(server) end)
   end
 
-  def cast(server, message) do
-    send(server, {:cast, message})
+  def cast(pid, message) do
+    send(pid, {:cast, message})
     :ok
   end
 
-  def call(server, message) do
-    send(server, {:call, self(), message})
+  def call(pid, message) do
+    send(pid, {:call, self(), message})
 
     receive do
       {:call_reply, value} ->
